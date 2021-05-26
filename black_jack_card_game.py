@@ -93,7 +93,7 @@ class Player:
             print(card)
 
 
-    def game_play(self):
+    def play_menu(self):
         '''
         Function to call the player options.
         '''
@@ -101,22 +101,16 @@ class Player:
         clear_screen()
 
         #options
-        options = (1,2,3,4)
-        menu = '1. Stand \n2. Hit'
+        options = ('b', 'h', 's', 'q')
+        menu = '\n(B) Bet  (H) Hit  (S) Stand      (Q) Quit\n'
 
         #print(f'\n---BlackJack---\n\n{menu}')
         
-        user_input = 0
+        user_input = ''
         while user_input not in options:
-            user_input = input('Enter the number of the option: ')
-            try:
-                user_input = int(user_input)
-                break
-            except TypeError:
-                print('Sorry, That is not a valid option!')
-                continue
+            user_input = input('Enter: ').lower()
 
-        if user_input == 1:
+        if user_input == 'b':
             game_play()
 
         elif user_input == 2:
@@ -130,11 +124,12 @@ class Dealer:
         self.name = name
         self.cards = []
 
-    def hit(self):
-        pass
-    
-    def stand(self):
-        pass  
+    def info(self):
+        print(f'\n{self.name}')
+        print('--------------')
+        print('Cards: ')
+        for card in self.cards:
+            print(card)         
 
 
 
@@ -162,9 +157,7 @@ ______  _               _       ___               _     _
 | ___ \\| | / _` | / __|| |/ /    | | / _` | / __|| |/ /| |
 | |_/ /| || (_| || (__ |   < /\\__/ /| (_| || (__ |   < |_|
 \\____/ |_| \\__,_| \\___||_|\\_\\____/  \\__,_| \\___||_|\\_\\(_)\n
-            ..........Press Enter........
-''')
-    input()   
+''')  
 
 
 def main_menu():
@@ -173,12 +166,12 @@ def main_menu():
     '''
 
     clear_screen()
+    title_screen()
 
-    #options
     options = (1,2,3,4)
-    menu = '1. Start Game \n2. Exit'
+    menu = '1. Start Game \n2. Exit\n'
 
-    print(f'\n---BlackJack---\n\n{menu}')
+    print(menu)
     
     user_input = 0
     while user_input not in options:
@@ -196,30 +189,27 @@ def main_menu():
     elif user_input == 2:
         exit()
 
-#game Logic
 
-  #deal cards
-    #menu options (hit, stay)
-    #dealer hand
-    #compare agains win or bust
 if __name__ == '__main__': 
-    title_screen()
+    main_menu()
     deck = Deck()
     dealer = Dealer('Dealer')
     player = Player('Player')
-    main_menu()
+    
     
     game_on = True
     while game_on:
         deck.shuffle()
-        player.cards.append(deck.deal())
-        dealer.cards.append(deck.deal())
-        player.cards.append(deck.deal())
-        dealer.cards.append(deck.deal())
         
-        clear_screen()
-        player.info()
-        break
+        while True:
+            for _ in range(2):
+                player.cards.append(deck.deal())
+                dealer.cards.append(deck.deal())
+
+
+    
+            game_on = False
+            break     
 
 
         #bet
@@ -235,4 +225,27 @@ if __name__ == '__main__':
 
 
 
+#Example Text based UI
+# ______  _               _       ___               _     _ 
+# | ___ \\| |             | |     |_  |             | |   | |
+# | |_/ /| |  __ _   ___ | | __    | |  __ _   ___ | | __| |
+# | ___ \\| | / _` | / __|| |/ /    | | / _` | / __|| |/ /| |
+# | |_/ /| || (_| || (__ |   < /\\__/ /| (_| || (__ |   < |_|
+# \\____/ |_| \\__,_| \\___||_|\\_\\____/  \\__,_| \\___||_|\\_\\(_)\n
 
+# ********************
+# Player Name
+# Balance: 700
+# Current Bet: 50
+# ********************
+
+# DEALER HAND [Total card value]
+# --------------------------------
+# Cards = [Rank of Suit (#), Hidden (?)]
+
+# PLAYER NAME [Total card value]
+# --------------------------------
+# Cards = [Rank of Suit (#), Rank of suit (#)]
+
+# ..................................................................
+# (B) Bet  (H) Hit  (S) Stand     (Quit)

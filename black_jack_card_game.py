@@ -2,6 +2,7 @@
 
 from random import shuffle
 from os import name, system
+import time
 
 suits = ('hearts', 'spades', 'diamonds', 'clubs')
 
@@ -55,6 +56,33 @@ class Deck:
 
 
 
+class Dealer:
+    '''
+    Defines dealer.
+    '''
+    def __init__(self, name = 'Dealer'):
+        self.pot = 0
+        self.name = name
+        self.cards = []
+        self.card_deck = Deck() 
+
+
+    def sum_cards(self):
+        total = 0
+        for card in self.cards:
+            total += card.value
+
+        return total
+
+
+    def show_cards_one(self):
+        return str(self.cards[0])
+
+    def show_cards_all(self):    
+        return ', '.join(str(card).title() for card in self.cards) 
+
+
+
 
 class Player:
     '''
@@ -86,7 +114,7 @@ class Player:
         return total           
 
 
-    def play_menu(self, deck):
+    def play_menu(self,):
         '''
         Function to call the player options.
         '''
@@ -108,44 +136,11 @@ class Player:
             pass
 
         elif user_input == 'q':
-            main_menu()        
+            main_menu() 
 
-    def show_cards(self):
+
+    def show_cards_all(self):
         return ', '.join(str(card).title() for card in self.cards)        
-
- 
-
-class Dealer:
-    '''
-    Defines dealer.
-    '''
-    def __init__(self, name = 'Dealer'):
-        self.pot = 0
-        self.name = name
-        self.cards = []
-
-    def info(self):
-        print(f'\n{self.name}')
-        print('--------------')
-        print('Cards: ')
-        for card in self.cards:
-            print(card) 
-
-    def sum_cards(self):
-        total = 0
-        for card in self.cards:
-            total += card.value
-
-        return total
-
-    def show_cards(self):
-        return ', '.join(str(card).title() for card in self.cards)
-        # cards = ''
-        # for card in self.cards:
-        #     cards += str(card)
-        # return cards     
-                       
-
 
 
 
@@ -178,8 +173,8 @@ def main_menu():
     '''
     Function to call the main menu options.
     '''
-    clear_screen()
-    title()
+    # clear_screen()
+    # title()
 
     options = (1,2,3,4)
     menu = '    1. Start Game \n    2. Exit\n'
@@ -205,33 +200,33 @@ def main_menu():
         del (player, dealer, deck)
         exit()
 
-def game_play_menu(match, player_name, player_chips, dealer_card_value, dealer_hand,
-                   player_card_value, player_hand, player_bet = 0):
-    clear_screen()
-    title()
+
+def game_play_menu(dealer_cards):
+    # clear_screen()
+    # title()
     print(f'''
 
      Deal #{match}
      ********************
 
-     {player_name}
-     Balance: {player_chips}
-     Current Bet: {player_bet}
+     {player.name}
+     Balance: {player.chips}
+     Current Bet: {player.bet_chips}
      
      ********************
 
-     DEALER HAND [{dealer_card_value}]
+     DEALER HAND [{dealer.sum_cards()}]
      --------------------------------
-     Cards = [{dealer_hand}]
+     Cards = [{dealer_cards}]
 
-     PLAYER NAME [{player_card_value}]
+     PLAYER NAME [{player.sum_cards()}]
      --------------------------------
-     Cards = [{player_hand}]
-
-     ..................................................................
-       (B) Bet  (H) Hit  (S) Stand     (Quit)
-        ''')
-    player.play_menu(deck)
+     Cards = [{player.show_cards_all()}]
+    
+    ''')
+     # ..................................................................
+     #   (B) Bet  (H) Hit  (S) Stand     (Quit)
+     #    ''')
 
 
 
@@ -251,49 +246,127 @@ def game_check(player_value, dealer_value):
     else:
         pass                    
 
+def goodbye():
+    print('    Thank you for playing!!!!!!')
+    time.sleep(3)
+    exit()
 
 if __name__ == '__main__': 
     
-    
-    
     game_on = True
     while game_on:
-        main_menu()
-        deck = Deck()
-        deck.shuffle()
-        match_count = 0
-
-        dealer = Dealer('Dealer')
-        player = Player('Player')
+        dealer = Dealer()
+        player = Player()
+        match = 0
         
+        clear_screen()
+        title()
+        main_menu()
+
         clear_screen()
         title()
         player.new_name()
 
+        clear_screen()
+        title()
         
-        while True:
-            for _ in range(2):
-                player.cards.append(deck.deal())
-                dealer.cards.append(deck.deal())
 
-            match_count += 1
+        user_input = ''
+        while user_input != 'd' and user_input != 'q':
+
+            print(' '*14 + f'Hello {player.name} are you ready to play?\n')
+            user_input = input(' '*4 + f'(D) Deal or (Q) Quit : ').lower()
+
+        if user_input == 'q':
+            clear_screen()
+            title()
+            goodbye()
+
+        else:
+            pass
+        
+
+        match_on = True
+        while match_on:
+
+            for _ in range(2):
+                player.cards.append(dealer.card_deck.deal())
+                dealer.cards.append(dealer.card_deck.deal())
+
+            match += 1
 
             clear_screen()
-            title()                
+            title()
+            game_play_menu(dealer.show_cards_one())
             
+
             while True:
-                game_play_menu(match_count, player.name, player.chips, dealer.sum_cards(), dealer.show_cards(),
-                               player.sum_cards(), player.show_cards())    
+                player.bet_chips = input(' '*4 + 'Enter Bet Amount: ') #need int
 
-            game_on = False
-            break
+                try:
+                    player.bet_chips = int(player.bet_chips)
+                    pass
+                except:
+                    clear_screen()
+                    title()
+                    game_play_menu(dealer.show_cards_one())
 
-        options = ('y', 'n')         
-        while user_input not in options:
-            user_input = input('Do you want to play again?  (Y) or (N) ').lower()
+                    print('Error! Please enter a number.')
+                    continue    
 
-        if user_input == 'y':
-            del (player, dealer, deck)
-            pass
-        else:
-            exit()                   
+                if player.chips > player.bet_chips:
+                    player.chips -= player.bet_chips
+                    break
+                else:    
+                    print('you dont\'t have enough chips! Try a lower amount.')
+                    continue
+
+
+            #Hit or Stand Options
+            while True:
+                clear_screen()
+                title()
+                game_play_menu(dealer.show_cards_all())
+
+                if player.sum_cards() > 21:
+                    print('BUST')
+                    break
+
+                user_input = ''
+                while user_input != 'h' and user_input != 'S' and user_input != 'q':
+                    user_input = input('     (H) Hit  (S) Stand        (Q) Quit ').lower()
+
+                if user_input == 'h':
+                    player.cards.append(dealer.card_deck.deal())
+                    continue
+                elif user_input == 's':
+                    break
+                elif user_input == 'q':
+                    match_on = False
+                    break  
+
+            #Check against dealer cards
+
+            #end match
+            user_input = ''
+            while user_input != 'y' and user_input != 'n':
+                user_input = input('    play again? (Y) Yes or (N) No : ').lower()
+            
+            if user_input == 'y':
+                player.cards.clear()
+                dealer.cards.clear()
+
+                dealer.card_deck = Deck()
+                dealer.card_deck.shuffle()
+                continue
+            else:
+                match_on = False
+                break
+
+    input()
+
+                
+
+
+
+

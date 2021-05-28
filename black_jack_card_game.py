@@ -11,7 +11,7 @@ ranks = ('two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
 
 card_values = {'two': 2 , 'three' : 3, 'four' : 4, 'five' : 5, 'six' : 6, 'seven' : 7,
     'eight' : 8, 'nine' : 9, 'ten' : 10, 'jack' : 10, 'queen' : 10, 'king' : 10,
-    'ace' : 11 }
+    'ace' : 0 }
 
 class Card:
     '''
@@ -328,24 +328,93 @@ if __name__ == '__main__':
                 title()
                 game_play_menu(dealer.show_cards_all())
 
+                while True:
+                    for card in player.cards:
+                        if card.value ==0:
+                            while user_input != 'a' and user_input != 'b':
+                                user_input = input('For Ace, Value (A) [1] or (B) [11]').lower()
+
+                            if user_input == 'a':
+                                card.value = 1
+                            else:
+                                card.value = 11 
+
+                    clear_screen()
+                    title()
+                    game_play_menu(dealer.show_cards_all())            
+                    break          
+
                 if player.sum_cards() > 21:
-                    print('BUST')
+                    player.bet_chips = 0
+                    clear_screen()
+                    title()
+                    print('''
+               ______   _   _   _____   _____   _ 
+               | ___ \\ | | | | /  ___| |_   _| | |
+               | |_/ / | | | | \\ `--.    | |   | |
+               | ___ \\ | | | |  `--. \\   | |   | |
+               | |_/ / | |_| | /\\__/ /   | |   |_|
+               \\____/   \\___/  \\____/    \\_/   (_)
+                     Press Enter to Continue!
+                    ''')
+                    input()
                     break
 
                 user_input = ''
-                while user_input != 'h' and user_input != 'S' and user_input != 'q':
+                while user_input != 'h' and user_input != 's' and user_input != 'q':
                     user_input = input('     (H) Hit  (S) Stand        (Q) Quit ').lower()
 
                 if user_input == 'h':
                     player.cards.append(dealer.card_deck.deal())
                     continue
-                elif user_input == 's':
-                    break
                 elif user_input == 'q':
                     match_on = False
-                    break  
+                    break
+                elif user_input == 's':
+                    pass    
+
+                print('S works')
+                input('Hello')    
 
             #Check against dealer cards
+
+            # while player.sum_cards() < 21:
+            #     for card in player.cards:
+            #         if card.value ==0:
+            #             while user_input != 'a' and user_input != 'b':
+            #                 user_input = input('For Ace, Value (A) [1] or (B) [11]').lower()
+
+            #             if user_input == 'a':
+            #                 card.value = 1
+            #             else: card.value = 11            
+
+            #     dealer.cards.append(dealer.card_deck.deal())
+             
+#             if dealer.sum_cards() < player.sum_cards():
+#                 pass
+#                 player.chips =+ player.bet_chips*2
+#                 print('''
+# __   __  _____   _   _     _    _   _____   _   _   _   _   _ 
+# \\ \\ / / |  _  | | | | |   | |  | | |_   _| | \\ | | | | | | | |
+#  \\ V /  | | | | | | | |   | |  | |   | |   |  \\| | | | | | | |
+#   \\ /   | | | | | | | |   | |/\\| |   | |   | . ` | | | | | | |
+#   | |   \\ \\_/ / | |_| |   \\  /\\  /  _| |_  | |\\  | |_| |_| |_|
+#   \\_/    \\___/   \\___/     \\/  \\/   \\___/  \\_| \\_/ (_) (_) (_)
+#   Press Enter to Continue!
+#                     ''')
+#                 input()
+
+                ''' text for lost graphic
+__   __  _____   _   _     _       _____   _____   _____   _   _   _ 
+\\ \\ / / |  _  | | | | |   | |     |  _  | /  ___| |_   _| | | | | | |
+ \\ V /  | | | | | | | |   | |     | | | | \\ `--.    | |   | | | | | |
+  \\ /   | | | | | | | |   | |     | | | |  `--. \\   | |   | | | | | |
+  | |   \\ \\_/ / | |_| |   | |____ \\ \\_/ / /\\__/ /   | |   |_| |_| |_|
+  \\_/    \\___/   \\___/    \\_____/  \\___/  \\____/    \\_/   (_) (_) (_)
+  '''
+
+
+
 
             #end match
             user_input = ''

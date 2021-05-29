@@ -75,6 +75,9 @@ class Dealer:
         return total
 
 
+    def sum_card_one(self):
+        return dealer.cards[0].value
+
     def show_cards_one(self):
         return str(self.cards[0])
 
@@ -201,7 +204,7 @@ def main_menu():
         exit()
 
 
-def game_play_menu(dealer_cards):
+def game_play_menu(dealer_cards, dealer_card_value):
     # clear_screen()
     # title()
     print(f'''
@@ -215,36 +218,19 @@ def game_play_menu(dealer_cards):
      
      ********************
 
-     DEALER HAND [{dealer.sum_cards()}]
+     DEALER HAND [{dealer_card_value}]
      --------------------------------
      Cards = [{dealer_cards}]
 
-     PLAYER NAME [{player.sum_cards()}]
+     PLAYER HAND [{player.sum_cards()}]
      --------------------------------
      Cards = [{player.show_cards_all()}]
+
+     Deck_count = {len(dealer.card_deck)}
     
     ''')
-     # ..................................................................
-     #   (B) Bet  (H) Hit  (S) Stand     (Quit)
-     #    ''')
 
-
-
-def game_check(player_value, dealer_value):
-    '''
-    check if win, lose, bust
-    '''
-    if player_value > 21:
-        bust = True
-    elif player_value == 21:
-        if dealer_value == 21:
-            draw = True
-        else:
-            win = True
-    elif dealer_value == 21:
-        lose = True
-    else:
-        pass                    
+                    
 
 def goodbye():
     print('    Thank you for playing!!!!!!')
@@ -297,7 +283,7 @@ if __name__ == '__main__':
 
             clear_screen()
             title()
-            game_play_menu(dealer.show_cards_one())
+            game_play_menu(dealer.show_cards_one(), dealer.sum_card_one())
             
 
             while True:
@@ -309,12 +295,12 @@ if __name__ == '__main__':
                 except:
                     clear_screen()
                     title()
-                    game_play_menu(dealer.show_cards_one())
+                    game_play_menu(dealer.show_cards_one(),dealer.sum_cards())
 
                     print('Error! Please enter a number.')
                     continue    
 
-                if player.chips > player.bet_chips:
+                if player.chips >= player.bet_chips:
                     player.chips -= player.bet_chips
                     break
                 else:    
@@ -326,7 +312,7 @@ if __name__ == '__main__':
             while True:
                 clear_screen()
                 title()
-                game_play_menu(dealer.show_cards_all())
+                game_play_menu(dealer.show_cards_all(), dealer.sum_cards())
 
                 while True:
                     for card in player.cards:
@@ -341,7 +327,7 @@ if __name__ == '__main__':
 
                     clear_screen()
                     title()
-                    game_play_menu(dealer.show_cards_all())            
+                    game_play_menu(dealer.show_cards_all(), dealer.sum_cards())            
                     break          
 
                 if player.sum_cards() > 21:
@@ -354,7 +340,7 @@ if __name__ == '__main__':
                | |_/ / | | | | \\ `--.    | |   | |
                | ___ \\ | | | |  `--. \\   | |   | |
                | |_/ / | |_| | /\\__/ /   | |   |_|
-               \\____/   \\___/  \\____/    \\_/   (_)
+               \\____/   \\___/  \\____/    \\_/   (_)\n
                      Press Enter to Continue!
                     ''')
                     input()
@@ -371,49 +357,73 @@ if __name__ == '__main__':
                     match_on = False
                     break
                 elif user_input == 's':
-                    pass    
+                    break    
 
-                print('S works')
-                input('Hello')    
+                
+                #dealer finishes turn if player stands
+                
 
-            #Check against dealer cards
+            while dealer.sum_cards() < 17:
+                for card in dealer.cards:
+                    if card.value == 0:
+                        if (dealer.sum_cards() + 11) < 21:
+                            card.value = 11
+                        else:
+                            card.value = 1
 
-            # while player.sum_cards() < 21:
-            #     for card in player.cards:
-            #         if card.value ==0:
-            #             while user_input != 'a' and user_input != 'b':
-            #                 user_input = input('For Ace, Value (A) [1] or (B) [11]').lower()
+                dealer.cards.append(dealer.card_deck.deal())
 
-            #             if user_input == 'a':
-            #                 card.value = 1
-            #             else: card.value = 11            
+            
+            if dealer.sum_cards() > 21 and player.sum_cards() <= 21 or player.sum_cards() > dealer.sum_cards() \
+                and player.sum_cards() <=21:
+                
+                player.chips += player.bet_chips*2
+                player.bet_chips = 0
+                
+                clear_screen()
+                title()
+                game_play_menu(dealer.show_cards_all(), dealer.sum_cards())
 
-            #     dealer.cards.append(dealer.card_deck.deal())
-             
-#             if dealer.sum_cards() < player.sum_cards():
-#                 pass
-#                 player.chips =+ player.bet_chips*2
-#                 print('''
-# __   __  _____   _   _     _    _   _____   _   _   _   _   _ 
-# \\ \\ / / |  _  | | | | |   | |  | | |_   _| | \\ | | | | | | | |
-#  \\ V /  | | | | | | | |   | |  | |   | |   |  \\| | | | | | | |
-#   \\ /   | | | | | | | |   | |/\\| |   | |   | . ` | | | | | | |
-#   | |   \\ \\_/ / | |_| |   \\  /\\  /  _| |_  | |\\  | |_| |_| |_|
-#   \\_/    \\___/   \\___/     \\/  \\/   \\___/  \\_| \\_/ (_) (_) (_)
-#   Press Enter to Continue!
-#                     ''')
-#                 input()
+                print('''
+     __   __  _____   _   _     _    _   _____   _   _   _   _   _ 
+     \\ \\ / / |  _  | | | | |   | |  | | |_   _| | \\ | | | | | | | |
+       \\ /   | | | | | | | |   | |/\\| |   | |   | . ` | | | | | | |
+       | |   \\ \\_/ / | |_| |   \\  /\\  /  _| |_  | |\\  | |_| |_| |_|
+       \\_/    \\___/   \\___/     \\/  \\/   \\___/  \\_| \\_/ (_) (_) (_)\n
+                        Press Enter to Continue!
+                     ''')
+                input()
 
-                ''' text for lost graphic
-__   __  _____   _   _     _       _____   _____   _____   _   _   _ 
-\\ \\ / / |  _  | | | | |   | |     |  _  | /  ___| |_   _| | | | | | |
- \\ V /  | | | | | | | |   | |     | | | | \\ `--.    | |   | | | | | |
-  \\ /   | | | | | | | |   | |     | | | |  `--. \\   | |   | | | | | |
-  | |   \\ \\_/ / | |_| |   | |____ \\ \\_/ / /\\__/ /   | |   |_| |_| |_|
-  \\_/    \\___/   \\___/    \\_____/  \\___/  \\____/    \\_/   (_) (_) (_)
-  '''
+            elif dealer.sum_cards() <= 21 and player.sum_cards() < 21 and dealer.sum_cards() > player.sum_cards():
+                player.bet_chips = 0
 
+                clear_screen()
+                title()
+                game_play_menu(dealer.show_cards_all(), dealer.sum_cards())
 
+                print('''    
+     __   __  _____   _   _     _       _____   _____   _____   _   _   _ 
+     \\ \\ / / |  _  | | | | |   | |     |  _  | /  ___| |_   _| | | | | | |
+      \\ V /  | | | | | | | |   | |     | | | | \\ `--.    | |   | | | | | |
+       \\ /   | | | | | | | |   | |     | | | |  `--. \\   | |   | | | | | |
+       | |   \\ \\_/ / | |_| |   | |____ \\ \\_/ / /\\__/ /   | |   |_| |_| |_|
+       \\_/    \\___/   \\___/    \\_____/  \\___/  \\____/    \\_/   (_) (_) (_)\n
+                      Press Enter to Continue!
+  ''')
+
+            if player.chips == 0:
+                match_on = False
+                clear_screen()
+                print('''
+      _____   ___  ___  ___ _____   _____  _   _ ___________ 
+     |  __ \\ / _ \\ |  \\/  ||  ___| |  _  || | | |  ___| ___ \
+     | |  \\// /_\\ \\| .  . || |__   | | | || | | | |__ | |_/ /
+     | | __ |  _  || |\\/| ||  __|  | | | || | | |  __||    / 
+     | |_\\ \\| | | || |  | || |___  \\ \\_/ /\\ \\_/ / |___| |\\ \\ 
+      \\____/\\_| |_/\\_|  |_/\\____/   \\___/  \\___/\\____/\\_| \\_|\n
+      YOU ARE OUT OF CHIPS!!!
+                    ''')
+                break
 
 
             #end match

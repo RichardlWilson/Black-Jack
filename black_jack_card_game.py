@@ -200,8 +200,9 @@ def main_menu():
         player = Player('Player')
 
     elif user_input == 2:
-        del (player, dealer, deck)
-        exit()
+        clear_screen()
+        title()
+        goodbye()
 
 
 def game_play_menu(dealer_cards, dealer_card_value):
@@ -416,13 +417,14 @@ if __name__ == '__main__':
                 clear_screen()
                 print('''
       _____   ___  ___  ___ _____   _____  _   _ ___________ 
-     |  __ \\ / _ \\ |  \\/  ||  ___| |  _  || | | |  ___| ___ \
+     |  __ \\ / _ \\ |  \\/  ||  ___| |  _  || | | |  ___| ___ \\
      | |  \\// /_\\ \\| .  . || |__   | | | || | | | |__ | |_/ /
      | | __ |  _  || |\\/| ||  __|  | | | || | | |  __||    / 
      | |_\\ \\| | | || |  | || |___  \\ \\_/ /\\ \\_/ / |___| |\\ \\ 
       \\____/\\_| |_/\\_|  |_/\\____/   \\___/  \\___/\\____/\\_| \\_|\n
-      YOU ARE OUT OF CHIPS!!!
+                       YOU ARE OUT OF CHIPS!!! 
                     ''')
+                input('Press Enter...')
                 break
 
 
@@ -444,7 +446,8 @@ if __name__ == '__main__':
 
     input()
 
-                
+    
+    #need to fix ace            
 
 
 

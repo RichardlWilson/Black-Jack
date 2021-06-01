@@ -3,6 +3,7 @@
 from random import shuffle
 from os import name, system
 import time
+import graphics
 
 suits = ('hearts', 'spades', 'diamonds', 'clubs')
 
@@ -176,9 +177,6 @@ def main_menu():
     '''
     Function to call the main menu options.
     '''
-    # clear_screen()
-    # title()
-
     options = (1,2,3,4)
     menu = '    1. Start Game \n    2. Exit\n'
 
@@ -206,8 +204,9 @@ def main_menu():
 
 
 def game_play_menu(dealer_cards, dealer_card_value):
-    # clear_screen()
-    # title()
+    '''
+    Displays the current game match info.
+    '''
     print(f'''
 
      Deal #{match}
@@ -230,52 +229,60 @@ def game_play_menu(dealer_cards, dealer_card_value):
      Deck_count = {len(dealer.card_deck)}
     
     ''')
-
+    graphics.hand(player.cards)
                     
-
 def goodbye():
+    '''
+    game exit code.
+    '''
     print('    Thank you for playing!!!!!!')
     time.sleep(3)
     exit()
+
+
+
 
 if __name__ == '__main__': 
     
     game_on = True
     while game_on:
+        #BUILDING THE GAME
         dealer = Dealer()
+        dealer.card_deck.shuffle()
         player = Player()
         match = 0
         
+        #STARTING THE GAME
         clear_screen()
         title()
         main_menu()
-
+        
+        #NAMING THE PLAYER
         clear_screen()
         title()
         player.new_name()
 
+        #STARTING THE MATCH
         clear_screen()
         title()
         
 
         user_input = ''
         while user_input != 'd' and user_input != 'q':
-
             print(' '*14 + f'Hello {player.name} are you ready to play?\n')
             user_input = input(' '*4 + f'(D) Deal or (Q) Quit : ').lower()
+
 
         if user_input == 'q':
             clear_screen()
             title()
             goodbye()
-
-        else:
-            pass
         
 
         match_on = True
         while match_on:
-
+            
+            #DEALING CARDS
             for _ in range(2):
                 player.cards.append(dealer.card_deck.deal())
                 dealer.cards.append(dealer.card_deck.deal())
@@ -287,6 +294,7 @@ if __name__ == '__main__':
             game_play_menu(dealer.show_cards_one(), dealer.sum_card_one())
             
 
+            #ENTERING BET
             while True:
                 player.bet_chips = input(' '*4 + 'Enter Bet Amount: ') #need int
 
@@ -309,12 +317,13 @@ if __name__ == '__main__':
                     continue
 
 
-            #Hit or Stand Options
+            #HIT OR STAND
             while True:
                 clear_screen()
                 title()
                 game_play_menu(dealer.show_cards_all(), dealer.sum_cards())
-
+                
+                #CHOOSE THE ACE VALUE
                 while True:
                     for card in player.cards:
                         if card.value ==0:
@@ -330,7 +339,9 @@ if __name__ == '__main__':
                     title()
                     game_play_menu(dealer.show_cards_all(), dealer.sum_cards())            
                     break          
+                
 
+                #CHECK FOR BUST
                 if player.sum_cards() > 21:
                     player.bet_chips = 0
                     clear_screen()
@@ -359,11 +370,9 @@ if __name__ == '__main__':
                     break
                 elif user_input == 's':
                     break    
-
-                
-                #dealer finishes turn if player stands
                 
 
+            #DEALER FINISHES LAYING DOWN CARDS
             while dealer.sum_cards() < 17:
                 for card in dealer.cards:
                     if card.value == 0:
@@ -374,7 +383,8 @@ if __name__ == '__main__':
 
                 dealer.cards.append(dealer.card_deck.deal())
 
-            
+
+            #CHECK FOR WIN OR LOSE
             if dealer.sum_cards() > 21 and player.sum_cards() <= 21 or player.sum_cards() > dealer.sum_cards() \
                 and player.sum_cards() <=21:
                 
@@ -411,7 +421,9 @@ if __name__ == '__main__':
        \\_/    \\___/   \\___/    \\_____/  \\___/  \\____/    \\_/   (_) (_) (_)\n
                       Press Enter to Continue!
   ''')
+            
 
+            #CHECK IF OUT OF CHIPS
             if player.chips == 0:
                 match_on = False
                 clear_screen()
@@ -428,7 +440,7 @@ if __name__ == '__main__':
                 break
 
 
-            #end match
+            # END MATCH CHECKPOINT
             user_input = ''
             while user_input != 'y' and user_input != 'n':
                 user_input = input('    play again? (Y) Yes or (N) No : ').lower()
@@ -444,11 +456,37 @@ if __name__ == '__main__':
                 match_on = False
                 break
 
-    input()
+    #input()
 
     
     #need to fix ace            
 
 
+#♣♦♠♥
+'''
+______________
+|             |
+| A           |
+|             |
+|             |
+|             |
+|      ♦      |
+|             |
+|             |
+|             |
+|           A |
+|_____________|
 
-
+______________
+|             |
+| A           |
+|             |
+|             |
+|             |
+|      ♦      |
+|             |
+|             |
+|             |
+|           A |
+|_____________|
+'''

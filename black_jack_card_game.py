@@ -79,8 +79,10 @@ class Dealer:
     def sum_card_one(self):
         return dealer.cards[0].value
 
+
     def show_cards_one(self):
         return str(self.cards[0])
+
 
     def show_cards_all(self):    
         return ', '.join(str(card).title() for card in self.cards) 
@@ -97,6 +99,7 @@ class Player:
         self.name = name
         self.bet_chips = 0
         self.cards = []
+
 
     def new_name(self):
         user_input = ''
@@ -118,59 +121,20 @@ class Player:
         return total           
 
 
-    def play_menu(self,):
-        '''
-        Function to call the player options.
-        '''
-
-        options = ('b', 'h', 's', 'q')
-
-        user_input = ''
-        while user_input not in options:
-            user_input = input('   Enter: ').lower()
-
-        if user_input == 'b':
-            self.bet()
-
-        elif user_input == 'h':
-            player.cards.append(deck.deal())
-            pass #check if bust
-
-        elif user_input == 's':
-            pass
-
-        elif user_input == 'q':
-            main_menu() 
-
-
     def show_cards_all(self):
         return ', '.join(str(card).title() for card in self.cards)        
 
 
 
-def clear_screen():
-    '''
-    Function to clear the screen.
-    '''
-    if name == 'nt':
-        _ = system('cls')
-    else:
-        _ = system('clear')
+# def clear_screen():
+#     '''
+#     Function to clear the screen.
+#     '''
+#     if name == 'nt':
+#         _ = system('cls')
+#     else:
+#         _ = system('clear')
 
-
-def title():
-    '''
-    Function to show the Title screen.
-    '''
-    clear_screen()
-    print('''
-    ______  _               _       ___               _     _ 
-    | ___ \\| |             | |     |_  |             | |   | |
-    | |_/ /| |  __ _   ___ | | __    | |  __ _   ___ | | __| |
-    | ___ \\| | / _` | / __|| |/ /    | | / _` | / __|| |/ /| |
-    | |_/ /| || (_| || (__ |   < /\\__/ /| (_| || (__ |   < |_|
-    \\____/ |_| \\__,_| \\___||_|\\_\\ ____/  \\__,_| \\___||_|\\_\\(_)\n
-        ''')  
 
 
 def main_menu():
@@ -198,8 +162,8 @@ def main_menu():
         player = Player('Player')
 
     elif user_input == 2:
-        clear_screen()
-        title()
+        #clear_screen()
+        graphics.title()
         goodbye()
 
 
@@ -230,7 +194,8 @@ def game_play_menu(dealer_cards, dealer_card_value):
     
     ''')
     graphics.hand(player.cards)
-                    
+            
+
 def goodbye():
     '''
     game exit code.
@@ -238,7 +203,6 @@ def goodbye():
     print('    Thank you for playing!!!!!!')
     time.sleep(3)
     exit()
-
 
 
 
@@ -253,29 +217,30 @@ if __name__ == '__main__':
         match = 0
         
         #STARTING THE GAME
-        clear_screen()
-        title()
+        #clear_screen()
+        graphics.title()
         main_menu()
         
         #NAMING THE PLAYER
-        clear_screen()
-        title()
+        #clear_screen()
+        graphics.title()
         player.new_name()
 
         #STARTING THE MATCH
-        clear_screen()
-        title()
+        #clear_screen()
+        graphics.title()
         
 
         user_input = ''
         while user_input != 'd' and user_input != 'q':
-            print(' '*14 + f'Hello {player.name} are you ready to play?\n')
-            user_input = input(' '*4 + f'(D) Deal or (Q) Quit : ').lower()
+            name_len = len(player.name)//2
+            print(' '*(32-name_len) + f'Hello {player.name} are you ready to play?\n')
+            user_input = input(' '*37 + f'(D) Deal or (Q) Quit\n').lower()
 
 
         if user_input == 'q':
-            clear_screen()
-            title()
+            #clear_screen()
+            graphics.title()
             goodbye()
         
 
@@ -289,9 +254,11 @@ if __name__ == '__main__':
 
             match += 1
 
-            clear_screen()
-            title()
-            game_play_menu(dealer.show_cards_one(), dealer.sum_card_one())
+            #clear_screen()
+            graphics.title()
+            graphics.game_info_bar(player.name, player.chips, match)
+            graphics.show_hands(dealer.cards, player.cards, player.name)
+            #game_play_menu(dealer.show_cards_one(), dealer.sum_card_one())
             
 
             #ENTERING BET
@@ -302,8 +269,8 @@ if __name__ == '__main__':
                     player.bet_chips = int(player.bet_chips)
                     pass
                 except:
-                    clear_screen()
-                    title()
+                    #clear_screen()
+                    graphics.title()
                     game_play_menu(dealer.show_cards_one(),dealer.sum_cards())
 
                     print('Error! Please enter a number.')
@@ -319,8 +286,8 @@ if __name__ == '__main__':
 
             #HIT OR STAND
             while True:
-                clear_screen()
-                title()
+                #clear_screen()
+                graphics.title()
                 game_play_menu(dealer.show_cards_all(), dealer.sum_cards())
                 
                 #CHOOSE THE ACE VALUE
@@ -335,8 +302,8 @@ if __name__ == '__main__':
                             else:
                                 card.value = 11 
 
-                    clear_screen()
-                    title()
+                    #clear_screen()
+                    graphics.title()
                     game_play_menu(dealer.show_cards_all(), dealer.sum_cards())            
                     break          
                 
@@ -344,23 +311,15 @@ if __name__ == '__main__':
                 #CHECK FOR BUST
                 if player.sum_cards() > 21:
                     player.bet_chips = 0
-                    clear_screen()
-                    title()
-                    print('''
-               ______   _   _   _____   _____   _ 
-               | ___ \\ | | | | /  ___| |_   _| | |
-               | |_/ / | | | | \\ `--.    | |   | |
-               | ___ \\ | | | |  `--. \\   | |   | |
-               | |_/ / | |_| | /\\__/ /   | |   |_|
-               \\____/   \\___/  \\____/    \\_/   (_)\n
-                     Press Enter to Continue!
-                    ''')
+                    #clear_screen()
+                    graphics.title()
+                    graphics.bust()
                     input()
                     break
 
                 user_input = ''
                 while user_input != 'h' and user_input != 's' and user_input != 'q':
-                    user_input = input('     (H) Hit  (S) Stand        (Q) Quit ').lower()
+                    user_input = input(' '*30 + '(H) Hit  (S) Stand        (Q) Quit\n').lower()
 
                 if user_input == 'h':
                     player.cards.append(dealer.card_deck.deal())
@@ -391,59 +350,36 @@ if __name__ == '__main__':
                 player.chips += player.bet_chips*2
                 player.bet_chips = 0
                 
-                clear_screen()
-                title()
+                #clear_screen()
+                graphics.title()
                 game_play_menu(dealer.show_cards_all(), dealer.sum_cards())
 
-                print('''
-     __   __  _____   _   _     _    _   _____   _   _   _   _   _ 
-     \\ \\ / / |  _  | | | | |   | |  | | |_   _| | \\ | | | | | | | |
-       \\ /   | | | | | | | |   | |/\\| |   | |   | . ` | | | | | | |
-       | |   \\ \\_/ / | |_| |   \\  /\\  /  _| |_  | |\\  | |_| |_| |_|
-       \\_/    \\___/   \\___/     \\/  \\/   \\___/  \\_| \\_/ (_) (_) (_)\n
-                        Press Enter to Continue!
-                     ''')
+                graphics.win()
                 input()
 
             elif dealer.sum_cards() <= 21 and player.sum_cards() < 21 and dealer.sum_cards() > player.sum_cards():
                 player.bet_chips = 0
 
-                clear_screen()
-                title()
+                #clear_screen()
+                graphics.title()
                 game_play_menu(dealer.show_cards_all(), dealer.sum_cards())
 
-                print('''    
-     __   __  _____   _   _     _       _____   _____   _____   _   _   _ 
-     \\ \\ / / |  _  | | | | |   | |     |  _  | /  ___| |_   _| | | | | | |
-      \\ V /  | | | | | | | |   | |     | | | | \\ `--.    | |   | | | | | |
-       \\ /   | | | | | | | |   | |     | | | |  `--. \\   | |   | | | | | |
-       | |   \\ \\_/ / | |_| |   | |____ \\ \\_/ / /\\__/ /   | |   |_| |_| |_|
-       \\_/    \\___/   \\___/    \\_____/  \\___/  \\____/    \\_/   (_) (_) (_)\n
-                      Press Enter to Continue!
-  ''')
+                graphics.lose()
+                input()
             
 
             #CHECK IF OUT OF CHIPS
             if player.chips == 0:
                 match_on = False
-                clear_screen()
-                print('''
-      _____   ___  ___  ___ _____   _____  _   _ ___________ 
-     |  __ \\ / _ \\ |  \\/  ||  ___| |  _  || | | |  ___| ___ \\
-     | |  \\// /_\\ \\| .  . || |__   | | | || | | | |__ | |_/ /
-     | | __ |  _  || |\\/| ||  __|  | | | || | | |  __||    / 
-     | |_\\ \\| | | || |  | || |___  \\ \\_/ /\\ \\_/ / |___| |\\ \\ 
-      \\____/\\_| |_/\\_|  |_/\\____/   \\___/  \\___/\\____/\\_| \\_|\n
-                       YOU ARE OUT OF CHIPS!!! 
-                    ''')
-                input('Press Enter...')
+                #clear_screen()
+                graphics.game_over()
                 break
 
 
             # END MATCH CHECKPOINT
             user_input = ''
             while user_input != 'y' and user_input != 'n':
-                user_input = input('    play again? (Y) Yes or (N) No : ').lower()
+                user_input = input(' '*32 + 'play again? (Y) Yes or (N) No').lower()
             
             if user_input == 'y':
                 player.cards.clear()
@@ -455,38 +391,3 @@ if __name__ == '__main__':
             else:
                 match_on = False
                 break
-
-    #input()
-
-    
-    #need to fix ace            
-
-
-#♣♦♠♥
-'''
-______________
-|             |
-| A           |
-|             |
-|             |
-|             |
-|      ♦      |
-|             |
-|             |
-|             |
-|           A |
-|_____________|
-
-______________
-|             |
-| A           |
-|             |
-|             |
-|             |
-|      ♦      |
-|             |
-|             |
-|             |
-|           A |
-|_____________|
-'''

@@ -1,42 +1,47 @@
-suits = ('hearts', 'spades', 'diamonds', 'clubs')
 
-ranks = ('two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
-         'jack', 'queen', 'king', 'ace')
+from os import system, name
 
-card_values = {'two': 2 , 'three' : 3, 'four' : 4, 'five' : 5, 'six' : 6, 'seven' : 7,
-    'eight' : 8, 'nine' : 9, 'ten' : 10, 'jack' : 10, 'queen' : 10, 'king' : 10,
-    'ace' : 0 }
+# suits = ('hearts', 'spades', 'diamonds', 'clubs')
 
-class Card:
-    '''
-    Class for creating each card.
-    '''
+# ranks = ('two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
+#          'jack', 'queen', 'king', 'ace')
 
-    def __init__(self, rank, suit):
-        self.rank =  rank
-        self.value = card_values[rank]
-        self.suit = suit
-
-    def __str__(self):
-        return self.rank + ' of ' + self.suit + f' ({self.value})'  
-
-    def __int__(self):
-        return self.value       
+# card_values = {'two': 2 , 'three' : 3, 'four' : 4, 'five' : 5, 'six' : 6, 'seven' : 7,
+#     'eight' : 8, 'nine' : 9, 'ten' : 10, 'jack' : 10, 'queen' : 10, 'king' : 10,
+#     'ace' : 0 }   
 
 
-class Deck:
-    '''
-    Creates a card deck of 52 cards
-    '''
-    def __init__(self):
-        self.cards = []
 
-        for suit in suits:
-            for rank in ranks:
-                created_card = Card(rank, suit)
-                self.cards.append(created_card)
+# class Card:
+#     '''
+#     Class for creating each card.
+#     '''
 
-deck = Deck()
+#     def __init__(self, rank, suit):
+#         self.rank =  rank
+#         self.value = card_values[rank]
+#         self.suit = suit
+
+#     def __str__(self):
+#         return self.rank + ' of ' + self.suit + f' ({self.value})'  
+
+#     def __int__(self):
+#         return self.value       
+
+
+# class Deck:
+#     '''
+#     Creates a card deck of 52 cards
+#     '''
+#     def __init__(self):
+#         self.cards = []
+
+#         for suit in suits:
+#             for rank in ranks:
+#                 created_card = Card(rank, suit)
+#                 self.cards.append(created_card)
+
+# deck = Deck()
 
 def hand(cards):
 
@@ -69,10 +74,10 @@ def hand(cards):
 
         return values, suits                      
 
+
     values, suits = card_value()
     if len(cards) ==2:
-        print(f'''
-     _____________________
+        print(f'''     _____________________
      |     |             |
      | {values[0]}  | {values[1]}          |
      |     |             |
@@ -86,8 +91,7 @@ def hand(cards):
      |_____|_____________|
      ''')
     elif len(cards) ==3:
-        print(f'''
-     __________________________
+        print(f'''     __________________________
      |     |     |             |
      | {values[0]}  | {values[1]}  | {values[2]}          |
      |     |     |             |
@@ -101,8 +105,7 @@ def hand(cards):
      |_____|_____|_____________|
      ''')
     elif len(cards) ==4:
-        print(f'''
-     ________________________________
+        print(f'''     ________________________________
      |     |     |     |             |
      |{values[0]}   | {values[1]}  | {values[2]}  | {values[3]}          |
      |     |     |     |             |
@@ -116,8 +119,7 @@ def hand(cards):
      |_____|_____|_____|_____________|
      ''')
     elif len(cards) == 5:
-        print(f'''
-     ______________________________________
+        print(f'''     ______________________________________
      |     |     |     |     |             |
      | {values[0]}  | {values[1]}  | {values[2]}  | {values[3]}  | {values[4]}          |
      |     |     |     |     |             |
@@ -130,9 +132,96 @@ def hand(cards):
      |     |     |     |     |           {values[4]}|
      |_____|_____|_____|_____|_____________|
      ''')
-import random
-random.shuffle(deck.cards)
-hand(deck.cards[0:2])
-hand(deck.cards[0:3])
-hand(deck.cards[0:4])
-hand(deck.cards[0:5])
+
+
+def clear_screen():
+    '''
+    Function to clear the screen.
+    '''
+    if name == 'nt':
+        _ = system('cls')
+    else:
+        _ = system('clear')
+
+
+def title():
+    clear_screen()
+    print("""
+
+  .______    __          ___       ______  __  ___        __       ___       ______  __  ___ 
+  |   _  \\  |  |        /   \\     /      ||  |/  /       |  |     /   \\     /      ||  |/  / 
+  |  |_)  | |  |       /  ^  \\   |  ,----'|  '  /        |  |    /  ^  \\   |  ,----'|  '  /  
+  |   _  <  |  |      /  /_\\  \\  |  |     |    <   .--.  |  |   /  /_\\  \\  |  |     |    <   
+  |  |_)  | |  `----./  _____  \\ |  `----.|  .  \\  |  `--'  |  /  _____  \\ |  `----.|  .  \\  
+  |______/  |_______/__/     \\__\\ \\______||__|\\__\\  \\______/  /__/     \\__\\ \\______||__|\\__\\
+                                                   B Y :   R I C H A R D   W I L S O N                 
+""")
+
+
+def game_info_bar(players_name, players_chips, match_num):
+    print(f'''  ##########################################################################################  
+  {players_name}      Chips ({players_chips})                                                 Match ({match_num})
+  ##########################################################################################
+  ''')
+
+def show_hands(dealers_hand, players_hand, players_name):    
+
+    print('     Dealer\'s Hand')
+    hand(dealers_hand)
+
+    print(f'     {players_name}\'s Hand')
+    hand(players_hand) 
+  
+    print('''  ##########################################################################################  ''')
+
+
+def bust():
+    print('''                              ______   _   _   _____   _____   _ 
+                              | ___ \\ | | | | /  ___| |_   _| | |
+                              | |_/ / | | | | \\ `--.    | |   | |
+                              | ___ \\ | | | |  `--. \\   | |   | |
+                              | |_/ / | |_| | /\\__/ /   | |   |_|
+                              \\____/   \\___/  \\____/    \\_/   (_)\n
+                                   Press Enter to Continue!''')
+
+def win():
+    print('''                __   __  _____   _   _     _    _   _____   _   _   _   _   _ 
+                \\ \\ / / |  _  | | | | |   | |  | | |_   _| | \\ | | | | | | | |
+                  \\ /   | | | | | | | |   | |/\\| |   | |   | . ` | | | | | | |
+                  | |   \\ \\_/ / | |_| |   \\  /\\  /  _| |_  | |\\  | |_| |_| |_|
+                  \\_/    \\___/   \\___/     \\/  \\/   \\___/  \\_| \\_/ (_) (_) (_)\n
+                                   Press Enter to Continue!''')
+
+def lose():
+    print('''            __   __  _____   _   _     _       _____   _____   _____   _   _   _ 
+            \\ \\ / / |  _  | | | | |   | |     |  _  | /  ___| |_   _| | | | | | |
+             \\ V /  | | | | | | | |   | |     | | | | \\ `--.    | |   | | | | | |
+              \\ /   | | | | | | | |   | |     | | | |  `--. \\   | |   | | | | | |
+              | |   \\ \\_/ / | |_| |   | |____ \\ \\_/ / /\\__/ /   | |   |_| |_| |_|
+              \\_/    \\___/   \\___/    \\_____/  \\___/  \\____/    \\_/   (_) (_) (_)\n
+                                   Press Enter to Continue!''')
+
+def game_over():
+    print('''                    _____   ___  ___  ___ _____   _____  _   _ ___________ 
+                    |  __ \\ / _ \\ |  \\/  ||  ___| |  _  || | | |  ___| ___ \\
+                    | |  \\// /_\\ \\| .  . || |__   | | | || | | | |__ | |_/ /
+                    | | __ |  _  || |\\/| ||  __|  | | | || | | |  __||    / 
+                    | |_\\ \\| | | || |  | || |___  \\ \\_/ /\\ \\_/ / |___| |\\ \\ 
+                    \\____/\\_| |_/\\_|  |_/\\____/   \\___/  \\___/\\____/\\_| \\_|\n
+                                    YOU ARE OUT OF CHPS!!!
+                                   Press Enter to Continue!''')                                      
+system('mode 94, 45')
+system('color 70')
+
+# players_name = 'Richard'
+# players_chips = 50
+# match_num = 1
+# dealers_hand = deck.cards[0:5]
+# players_hand = deck.cards[0:5]
+
+
+title()
+game_over()
+# game_info_bar(players_name, players_chips, match_num)
+# show_hands(dealers_hand, players_hand)
+

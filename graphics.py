@@ -44,6 +44,9 @@ from os import system, name
 # deck = Deck()
 
 def hand(cards):
+    '''
+    Function to display each players hand as card graphics
+    '''
 
     def card_value():
         pass
@@ -145,6 +148,8 @@ def clear_screen():
 
 
 def title():
+    '''Clears the screen and displays the title banner.
+    '''
     clear_screen()
     print("""
 
@@ -154,8 +159,7 @@ def title():
   |   _  <  |  |      /  /_\\  \\  |  |     |    <   .--.  |  |   /  /_\\  \\  |  |     |    <   
   |  |_)  | |  `----./  _____  \\ |  `----.|  .  \\  |  `--'  |  /  _____  \\ |  `----.|  .  \\  
   |______/  |_______/__/     \\__\\ \\______||__|\\__\\  \\______/  /__/     \\__\\ \\______||__|\\__\\
-                                                   B Y :   R I C H A R D   W I L S O N                 
-""")
+                                                   B Y :   R I C H A R D   W I L S O N                 """)
 
 
 def game_info_bar(players_name, players_chips, match_num):
@@ -163,6 +167,7 @@ def game_info_bar(players_name, players_chips, match_num):
   {players_name}      Chips ({players_chips})                                                 Match ({match_num})
   ##########################################################################################
   ''')
+
 
 def show_hands(dealers_hand, players_hand, players_name):    
 
@@ -184,6 +189,7 @@ def bust():
                               \\____/   \\___/  \\____/    \\_/   (_)\n
                                    Press Enter to Continue!''')
 
+
 def win():
     print('''                __   __  _____   _   _     _    _   _____   _   _   _   _   _ 
                 \\ \\ / / |  _  | | | | |   | |  | | |_   _| | \\ | | | | | | | |
@@ -191,6 +197,7 @@ def win():
                   | |   \\ \\_/ / | |_| |   \\  /\\  /  _| |_  | |\\  | |_| |_| |_|
                   \\_/    \\___/   \\___/     \\/  \\/   \\___/  \\_| \\_/ (_) (_) (_)\n
                                    Press Enter to Continue!''')
+
 
 def lose():
     print('''            __   __  _____   _   _     _       _____   _____   _____   _   _   _ 
@@ -201,6 +208,7 @@ def lose():
               \\_/    \\___/   \\___/    \\_____/  \\___/  \\____/    \\_/   (_) (_) (_)\n
                                    Press Enter to Continue!''')
 
+
 def game_over():
     print('''                    _____   ___  ___  ___ _____   _____  _   _ ___________ 
                     |  __ \\ / _ \\ |  \\/  ||  ___| |  _  || | | |  ___| ___ \\
@@ -210,8 +218,7 @@ def game_over():
                     \\____/\\_| |_/\\_|  |_/\\____/   \\___/  \\___/\\____/\\_| \\_|\n
                                     YOU ARE OUT OF CHPS!!!
                                    Press Enter to Continue!''')                                      
-system('mode 94, 45')
-system('color 70')
+
 
 # players_name = 'Richard'
 # players_chips = 50
@@ -220,8 +227,8 @@ system('color 70')
 # players_hand = deck.cards[0:5]
 
 
-title()
-game_over()
+# title()
+# game_over()
 # game_info_bar(players_name, players_chips, match_num)
 # show_hands(dealers_hand, players_hand)
 

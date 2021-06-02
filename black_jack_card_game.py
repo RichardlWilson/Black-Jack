@@ -59,7 +59,7 @@ class Deck:
 
 class Dealer:
     '''
-    Defines dealer.
+    Class that defines a dealer.
     '''
     def __init__(self, name = 'Dealer'):
         self.pot = 0
@@ -92,7 +92,7 @@ class Dealer:
 
 class Player:
     '''
-    class that defines a player
+    Class that defines a player
     '''
     def __init__(self,name = 'player', chips = 50):
         self.chips = chips
@@ -102,15 +102,13 @@ class Player:
 
 
     def new_name(self):
+        '''
+        Function that prompts user for the player name.
+        '''
         user_input = ''
         while len(user_input) <1:
-            user_input = input('    Enter Name: ')
+            user_input = input(' '*42 + 'Enter Name: ')
             self.name = user_input    
-
-
-    def bet(self, chips):
-        self.chips -= chips
-        self.bet_chips = chips
         
 
     def sum_cards(self):
@@ -123,17 +121,6 @@ class Player:
 
     def show_cards_all(self):
         return ', '.join(str(card).title() for card in self.cards)        
-
-
-
-# def clear_screen():
-#     '''
-#     Function to clear the screen.
-#     '''
-#     if name == 'nt':
-#         _ = system('cls')
-#     else:
-#         _ = system('clear')
 
 
 
@@ -157,56 +144,27 @@ def main_menu():
             continue
 
     if user_input == 1:
-        deck = Deck()
-        dealer = Dealer('Dealer')
-        player = Player('Player')
+        pass
 
     elif user_input == 2:
         #clear_screen()
         graphics.title()
         goodbye()
 
-
-def game_play_menu(dealer_cards, dealer_card_value):
-    '''
-    Displays the current game match info.
-    '''
-    print(f'''
-
-     Deal #{match}
-     ********************
-
-     {player.name}
-     Balance: {player.chips}
-     Current Bet: {player.bet_chips}
-     
-     ********************
-
-     DEALER HAND [{dealer_card_value}]
-     --------------------------------
-     Cards = [{dealer_cards}]
-
-     PLAYER HAND [{player.sum_cards()}]
-     --------------------------------
-     Cards = [{player.show_cards_all()}]
-
-     Deck_count = {len(dealer.card_deck)}
-    
-    ''')
-    graphics.hand(player.cards)
             
-
 def goodbye():
     '''
     game exit code.
     '''
-    print('    Thank you for playing!!!!!!')
-    time.sleep(3)
+    print(' '*34 + 'Thank you for playing!!!!!!')
+    time.sleep(2)
     exit()
+#...............................................................................
 
 
-
-if __name__ == '__main__': 
+if __name__ == '__main__':
+    system('mode 94, 45')
+    system('color 0A')
     
     game_on = True
     while game_on:
@@ -217,17 +175,14 @@ if __name__ == '__main__':
         match = 0
         
         #STARTING THE GAME
-        #clear_screen()
         graphics.title()
         main_menu()
         
         #NAMING THE PLAYER
-        #clear_screen()
         graphics.title()
         player.new_name()
 
         #STARTING THE MATCH
-        #clear_screen()
         graphics.title()
         
 
@@ -239,7 +194,6 @@ if __name__ == '__main__':
 
 
         if user_input == 'q':
-            #clear_screen()
             graphics.title()
             goodbye()
         
@@ -254,24 +208,22 @@ if __name__ == '__main__':
 
             match += 1
 
-            #clear_screen()
             graphics.title()
             graphics.game_info_bar(player.name, player.chips, match)
             graphics.show_hands(dealer.cards, player.cards, player.name)
-            #game_play_menu(dealer.show_cards_one(), dealer.sum_card_one())
             
 
             #ENTERING BET
             while True:
-                player.bet_chips = input(' '*4 + 'Enter Bet Amount: ') #need int
+                player.bet_chips = input(' '*39 + 'Enter Bet Amount:\n') #need int
 
                 try:
                     player.bet_chips = int(player.bet_chips)
                     pass
                 except:
-                    #clear_screen()
                     graphics.title()
-                    game_play_menu(dealer.show_cards_one(),dealer.sum_cards())
+                    graphics.game_info_bar(player.name, player.chips, match)
+                    graphics.show_hands(dealer.cards, player.cards, player.name)
 
                     print('Error! Please enter a number.')
                     continue    
@@ -286,9 +238,10 @@ if __name__ == '__main__':
 
             #HIT OR STAND
             while True:
-                #clear_screen()
                 graphics.title()
-                game_play_menu(dealer.show_cards_all(), dealer.sum_cards())
+                graphics.game_info_bar(player.name, player.chips, match)
+                graphics.show_hands(dealer.cards, player.cards, player.name)
+
                 
                 #CHOOSE THE ACE VALUE
                 while True:
@@ -302,17 +255,20 @@ if __name__ == '__main__':
                             else:
                                 card.value = 11 
 
-                    #clear_screen()
                     graphics.title()
-                    game_play_menu(dealer.show_cards_all(), dealer.sum_cards())            
+                    graphics.game_info_bar(player.name, player.chips, match)
+                    graphics.show_hands(dealer.cards, player.cards, player.name)            
                     break          
                 
 
                 #CHECK FOR BUST
                 if player.sum_cards() > 21:
                     player.bet_chips = 0
-                    #clear_screen()
+
                     graphics.title()
+                    graphics.game_info_bar(player.name, player.chips, match)
+                    graphics.show_hands(dealer.cards, player.cards, player.name)
+
                     graphics.bust()
                     input()
                     break
@@ -344,25 +300,27 @@ if __name__ == '__main__':
 
 
             #CHECK FOR WIN OR LOSE
-            if dealer.sum_cards() > 21 and player.sum_cards() <= 21 or player.sum_cards() > dealer.sum_cards() \
-                and player.sum_cards() <=21:
+            if dealer.sum_cards() > 21 and player.sum_cards() <= 21 or \
+                player.sum_cards() > dealer.sum_cards() and player.sum_cards() <=21:
                 
                 player.chips += player.bet_chips*2
                 player.bet_chips = 0
                 
-                #clear_screen()
                 graphics.title()
-                game_play_menu(dealer.show_cards_all(), dealer.sum_cards())
+                graphics.game_info_bar(player.name, player.chips, match)
+                graphics.show_hands(dealer.cards, player.cards, player.name)
 
                 graphics.win()
                 input()
 
-            elif dealer.sum_cards() <= 21 and player.sum_cards() < 21 and dealer.sum_cards() > player.sum_cards():
+            elif dealer.sum_cards() <= 21 and player.sum_cards() < 21 and \
+                dealer.sum_cards() > player.sum_cards():
+
                 player.bet_chips = 0
 
-                #clear_screen()
                 graphics.title()
-                game_play_menu(dealer.show_cards_all(), dealer.sum_cards())
+                graphics.game_info_bar(player.name, player.chips, match)
+                graphics.show_hands(dealer.cards, player.cards, player.name)
 
                 graphics.lose()
                 input()
@@ -371,7 +329,6 @@ if __name__ == '__main__':
             #CHECK IF OUT OF CHIPS
             if player.chips == 0:
                 match_on = False
-                #clear_screen()
                 graphics.game_over()
                 break
 
@@ -379,7 +336,7 @@ if __name__ == '__main__':
             # END MATCH CHECKPOINT
             user_input = ''
             while user_input != 'y' and user_input != 'n':
-                user_input = input(' '*32 + 'play again? (Y) Yes or (N) No').lower()
+                user_input = input(' '*32 + 'play again? (Y) Yes or (N) No\n').lower()
             
             if user_input == 'y':
                 player.cards.clear()

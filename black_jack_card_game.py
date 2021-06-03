@@ -5,6 +5,7 @@ Main file for Blackjack Game.
 
 from random import shuffle
 from os import system
+import sys
 import time
 import graphics
 
@@ -154,25 +155,13 @@ def main_menu():
     '''
     Function to call the main menu options.
     '''
-    options = (1,2,3,4)
-    menu = '    1. Start Game \n    2. Exit\n'
+    user_input = ''
+    while user_input not in ('s', 'q'):
+        user_input = input(' '*35 + '(S) Start Game   (Q) Quit').lower()
 
-    print(menu)
-
-    user_input = 0
-    while user_input not in options:
-        user_input = input('    Enter the number of the option: ')
-        try:
-            user_input = int(user_input)
-            break
-        except TypeError:
-            print('Sorry, That is not a valid option!')
-            continue
-
-    if user_input == 1:
+    if user_input == 's':
         pass
-
-    elif user_input == 2:
+    elif user_input == 'q':
         #clear_screen()
         graphics.title()
         goodbye()
@@ -184,7 +173,7 @@ def goodbye():
     '''
     print(' '*34 + 'Thank you for playing!!!!!!')
     time.sleep(2)
-    exit()
+    sys.exit()
 #...............................................................................
 
 
@@ -202,6 +191,7 @@ if __name__ == '__main__':
 
         #STARTING THE GAME
         graphics.title()
+        graphics.rules()
         main_menu()
 
         #NAMING THE PLAYER

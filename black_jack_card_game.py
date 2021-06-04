@@ -222,20 +222,18 @@ if __name__ == '__main__':
                 try:
                     player.bet_chips = int(player.bet_chips)
 
+                    if player.chips >= player.bet_chips:
+                        player.chips -= player.bet_chips
+                        break
+                    else:
+                        print('you dont\'t have enough chips! Try a lower amount.')
+
                 except:
                     graphics.title()
                     graphics.game_info_bar(player.name, player.chips, match)
                     graphics.show_hands(dealer.cards, player.cards, player.name)
 
                     print('Error! Please enter a number.')
-                    continue
-
-                if player.chips >= player.bet_chips:
-                    player.chips -= player.bet_chips
-                    break
-                else:
-                    print('you dont\'t have enough chips! Try a lower amount.')
-                    continue
 
 
             #HIT OR STAND
@@ -282,7 +280,6 @@ if __name__ == '__main__':
 
                 if user_input == 'h':
                     player.cards.append(dealer.card_deck.deal())
-                    continue
                 elif user_input == 'q':
                     match_on = False
                     break
@@ -353,7 +350,6 @@ if __name__ == '__main__':
 
                 dealer.card_deck = Deck()
                 dealer.card_deck.shuffle()
-                continue
             else:
                 match_on = False
                 break

@@ -7,6 +7,7 @@ from random import shuffle
 from os import system
 import sys
 import time
+
 import graphics
 
 suits = ('hearts', 'spades', 'diamonds', 'clubs')
@@ -102,14 +103,6 @@ class Dealer:
         return str(self.cards[0])
 
 
-    def show_cards_all(self):
-        '''
-        Returns the suit and rank of all the cards in the dealer's hand.
-        '''
-        return ', '.join(str(card).title() for card in self.cards)
-
-
-
 
 class Player:
     '''
@@ -143,13 +136,6 @@ class Player:
         return total
 
 
-    def show_cards_all(self):
-        '''
-        Returns the suit and rank of all the cards in the player's hand
-        '''
-        return ', '.join(str(card).title() for card in self.cards)
-
-
 
 def main_menu():
     '''
@@ -157,7 +143,7 @@ def main_menu():
     '''
     user_input = ''
     while user_input not in ('s', 'q'):
-        user_input = input(' '*35 + '(S) Start Game   (Q) Quit').lower()
+        user_input = input(' '*35 + '(S) Start Game   (Q) Quit\n').lower()
 
     if user_input == 's':
         pass
@@ -346,7 +332,13 @@ if __name__ == '__main__':
             #CHECK IF OUT OF CHIPS
             if player.chips == 0:
                 match_on = False
+
+                graphics.title()
+                graphics.game_info_bar(player.name, player.chips, match)
+                graphics.show_hands(dealer.cards, player.cards, player.name)
+
                 graphics.game_over()
+                input()
                 break
 
 

@@ -1,47 +1,6 @@
 
 from os import system, name
 
-# suits = ('hearts', 'spades', 'diamonds', 'clubs')
-
-# ranks = ('two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
-#          'jack', 'queen', 'king', 'ace')
-
-# card_values = {'two': 2 , 'three' : 3, 'four' : 4, 'five' : 5, 'six' : 6, 'seven' : 7,
-#     'eight' : 8, 'nine' : 9, 'ten' : 10, 'jack' : 10, 'queen' : 10, 'king' : 10,
-#     'ace' : 0 }   
-
-
-
-# class Card:
-#     '''
-#     Class for creating each card.
-#     '''
-
-#     def __init__(self, rank, suit):
-#         self.rank =  rank
-#         self.value = card_values[rank]
-#         self.suit = suit
-
-#     def __str__(self):
-#         return self.rank + ' of ' + self.suit + f' ({self.value})'  
-
-#     def __int__(self):
-#         return self.value       
-
-
-# class Deck:
-#     '''
-#     Creates a card deck of 52 cards
-#     '''
-#     def __init__(self):
-#         self.cards = []
-
-#         for suit in suits:
-#             for rank in ranks:
-#                 created_card = Card(rank, suit)
-#                 self.cards.append(created_card)
-
-# deck = Deck()
 
 def hand(cards):
     '''
@@ -237,23 +196,6 @@ def rules():
    #  • Doubling is like a hit, only the bet is doubled and you only get one more card.   #
    #                                                                                      #
    ########################################################################################\n''')
-# • Split can be done when you have two of the same card - the pair is split into
-#   two hands.
-# • Splitting also doubles the bet, because each new hand is worth the original bet.
-# • You can only double/split on the first move, or first move of a hand created
-#   by a split.
-# • You cannot play on two aces after they are split.
-# • You can double on a hand resulting from a split, tripling or quadrupling you bet.
-
-# players_name = 'Richard'
-# players_chips = 50
-# match_num = 1
-# dealers_hand = deck.cards[0:5]
-# players_hand = deck.cards[0:5]
 
 
-# title()
-# game_over()
-# game_info_bar(players_name, players_chips, match_num)
-# show_hands(dealers_hand, players_hand)
 

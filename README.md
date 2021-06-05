@@ -6,14 +6,18 @@ As one of the games used to learn how to code in Python,
 I had a lot of fun with this one. I like to create more of
 a GUI even though it is just a console or text based game.
 
-Kinda has the feel of an early 90's dos game.
+Kind of feels like an early 90's MS-DOS game.
 
 The key points I picked up from this project:
 
-• Creating and using classes with methods.
+• Creating and using classes with methods. 
+
 • Passing arguments to functions and methods.
+
 • Organizing code to be more easily read.
+
 • Pep8 guidelines
+
 • Plan out the game before coding.
 
 # Preview

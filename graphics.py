@@ -143,13 +143,15 @@ def game_info_bar(players_name, players_chips, match_num):
   ''')
 
 
-def show_hands(dealers_hand, players_hand, players_name,is_dealer_cards, card_flip):
+def show_hands(dealers_hand, dealer_total, players_hand, players_total,
+               players_name, is_dealer_cards, card_flip):
+
     is_dealer_cards = True
 
-    print('     Dealer\'s Hand')
+    print(f'     Dealer\'s Hand   ({dealer_total})')
     hand(dealers_hand, is_dealer_cards, card_flip)
 
-    print(f'     {players_name}\'s Hand')
+    print(f'     {players_name}\'s Hand   ({players_total})')
     hand(players_hand) 
   
     print('''  ##########################################################################################  ''')

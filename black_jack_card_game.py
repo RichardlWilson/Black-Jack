@@ -137,6 +137,18 @@ class Player:
 
         return total
 
+    def ace_value(self):
+        '''
+        Check value of Ace.
+        '''
+        for card in self.cards:
+            total = self.sum_cards()
+            if card.value == 0:
+                if (total + 11) < 21:
+                    card.value = 11
+                else:
+                    card.value = 1            
+
 
 
 def main_menu():
@@ -214,8 +226,9 @@ if __name__ == '__main__':
 
             graphics.title()
             graphics.game_info_bar(player.name, player.chips, match)
-            graphics.show_hands(dealer.cards, player.cards, player.name,
-                                dealer.is_dealer, dealer.card_flip)
+            graphics.show_hands(dealer.cards,dealer.sum_card_one(), player.cards,
+                                player.sum_cards(), player.name, dealer.is_dealer,
+                                dealer.card_flip)
 
 
             #ENTERING BET
@@ -235,39 +248,22 @@ if __name__ == '__main__':
                 except:
                     graphics.title()
                     graphics.game_info_bar(player.name, player.chips, match)
-                    graphics.show_hands(dealer.cards, player.cards, player.name,
-                                        dealer.is_dealer, dealer.card_flip)
+                    graphics.show_hands(dealer.cards,dealer.sum_cards(), player.cards,
+                                        player.sum_cards(), player.name, dealer.is_dealer,
+                                        dealer.card_flip)
 
                     print('Error! Please enter a number.')
 
 
             #HIT OR STAND
             while True:
+                player.ace_value()
+
                 graphics.title()
                 graphics.game_info_bar(player.name, player.chips, match)
-                graphics.show_hands(dealer.cards, player.cards, player.name,
-                                    dealer.is_dealer, dealer.card_flip)
-
-
-                #CHOOSE THE ACE VALUE
-                while True:
-                    for card in player.cards:
-                        if card.value ==0:
-                            while user_input not in ('a', 'b'):
-                                user_input = input(' '*30 + 'For Ace, Value (A)' \
-                                    + '[1] or (B) [11]').lower()
-
-                            if user_input == 'a':
-                                card.value = 1
-                            else:
-                                card.value = 11
-
-                    graphics.title()
-                    graphics.game_info_bar(player.name, player.chips, match)
-                    graphics.show_hands(dealer.cards, player.cards, player.name,
-                                        dealer.is_dealer, dealer.card_flip)
-                    break
-
+                graphics.show_hands(dealer.cards,dealer.sum_cards(), player.cards,
+                                    player.sum_cards(), player.name, dealer.is_dealer,
+                                    dealer.card_flip)
 
                 #CHECK FOR BUST
                 if player.sum_cards() > 21:
@@ -275,8 +271,9 @@ if __name__ == '__main__':
 
                     graphics.title()
                     graphics.game_info_bar(player.name, player.chips, match)
-                    graphics.show_hands(dealer.cards, player.cards, player.name,
-                                        dealer.is_dealer, dealer.card_flip)
+                    graphics.show_hands(dealer.cards,dealer.sum_cards(), player.cards,
+                                    player.sum_cards(), player.name, dealer.is_dealer,
+                                    dealer.card_flip)
 
                     graphics.bust()
                     input()
@@ -319,8 +316,9 @@ if __name__ == '__main__':
 
                 graphics.title()
                 graphics.game_info_bar(player.name, player.chips, match)
-                graphics.show_hands(dealer.cards, player.cards, player.name,
-                                    dealer.is_dealer, dealer.card_flip)
+                graphics.show_hands(dealer.cards,dealer.sum_cards(), player.cards,
+                                    player.sum_cards(), player.name, dealer.is_dealer,
+                                    dealer.card_flip)
 
                 graphics.win()
                 input()
@@ -331,8 +329,9 @@ if __name__ == '__main__':
 
                 graphics.title()
                 graphics.game_info_bar(player.name, player.chips, match)
-                graphics.show_hands(dealer.cards, player.cards, player.name,
-                                    dealer.is_dealer, dealer.card_flip)
+                graphics.show_hands(dealer.cards,dealer.sum_cards(), player.cards,
+                                    player.sum_cards(), player.name, dealer.is_dealer,
+                                    dealer.card_flip)
 
                 graphics.lose()
                 input()
@@ -344,8 +343,9 @@ if __name__ == '__main__':
 
                 graphics.title()
                 graphics.game_info_bar(player.name, player.chips, match)
-                graphics.show_hands(dealer.cards, player.cards, player.name,
-                                    dealer.is_dealer, dealer.card_flip)
+                graphics.show_hands(dealer.cards,dealer.sum_cards(), player.cards,
+                                    player.sum_cards(), player.name, dealer.is_dealer,
+                                    dealer.card_flip)
 
                 graphics.game_over()
                 input()

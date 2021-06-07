@@ -2,7 +2,7 @@
 from os import system, name
 
 
-def hand(cards):
+def hand(cards, is_dealer_cards = False, card_flip = True):
     '''
     Function to display each players hand as card graphics
     '''
@@ -38,7 +38,22 @@ def hand(cards):
 
 
     values, suits = card_value()
-    if len(cards) ==2:
+    
+    if (len(cards) == 2) and (is_dealer_cards == True) and (card_flip == False):
+        print(f'''     _____________________
+     |     |             |
+     | {values[0]}  | ^^^^^^^^^^^ |
+     |     | ^^^^^^^^^^^ |
+     |     | ^^^^^^^^^^^ |
+     |     | ^^^^^^^^^^^ |
+     |     | ^^^^^^^^^^^ |
+     |     | ^^^^^^^^^^^ |
+     |     | ^^^^^^^^^^^ |
+     |     | ^^^^^^^^^^^ |
+     |     | ^^^^^^^^^^^ |
+     |_____|_____________|
+     ''')
+    elif len(cards) ==2:
         print(f'''     _____________________
      |     |             |
      | {values[0]}  | {values[1]}          |
@@ -51,7 +66,7 @@ def hand(cards):
      |     |             |
      |     |           {values[1]}|
      |_____|_____________|
-     ''')
+     ''')   
     elif len(cards) ==3:
         print(f'''     __________________________
      |     |     |             |
@@ -63,7 +78,7 @@ def hand(cards):
      |     |     |             |
      |     |     |             |
      |     |     |             |
-     |     |     |           {values[1]}|
+     |     |     |           {values[2]}|
      |_____|_____|_____________|
      ''')
     elif len(cards) ==4:
@@ -128,10 +143,11 @@ def game_info_bar(players_name, players_chips, match_num):
   ''')
 
 
-def show_hands(dealers_hand, players_hand, players_name):    
+def show_hands(dealers_hand, players_hand, players_name,is_dealer_cards, card_flip):
+    is_dealer_cards = True
 
     print('     Dealer\'s Hand')
-    hand(dealers_hand)
+    hand(dealers_hand, is_dealer_cards, card_flip)
 
     print(f'     {players_name}\'s Hand')
     hand(players_hand) 
@@ -175,7 +191,7 @@ def game_over():
                     | | __ |  _  || |\\/| ||  __|  | | | || | | |  __||    / 
                     | |_\\ \\| | | || |  | || |___  \\ \\_/ /\\ \\_/ / |___| |\\ \\ 
                     \\____/\\_| |_/\\_|  |_/\\____/   \\___/  \\___/\\____/\\_| \\_|\n
-                                    YOU ARE OUT OF CHPS!!!
+                                    YOU ARE OUT OF CHIPS!!!
                                    Press Enter to Continue!''')                                      
 
 def rules():

@@ -76,6 +76,8 @@ class Dealer:
         self.name = name
         self.cards = []
         self.card_deck = Deck()
+        self.card_flip = False
+        self.is_dealer = True
 
 
     def sum_cards(self):
@@ -212,7 +214,8 @@ if __name__ == '__main__':
 
             graphics.title()
             graphics.game_info_bar(player.name, player.chips, match)
-            graphics.show_hands(dealer.cards, player.cards, player.name)
+            graphics.show_hands(dealer.cards, player.cards, player.name,
+                                dealer.is_dealer, dealer.card_flip)
 
 
             #ENTERING BET
@@ -224,6 +227,7 @@ if __name__ == '__main__':
 
                     if player.chips >= player.bet_chips:
                         player.chips -= player.bet_chips
+                        dealer.card_flip = True
                         break
                     else:
                         print('you dont\'t have enough chips! Try a lower amount.')
@@ -231,7 +235,8 @@ if __name__ == '__main__':
                 except:
                     graphics.title()
                     graphics.game_info_bar(player.name, player.chips, match)
-                    graphics.show_hands(dealer.cards, player.cards, player.name)
+                    graphics.show_hands(dealer.cards, player.cards, player.name,
+                                        dealer.is_dealer, dealer.card_flip)
 
                     print('Error! Please enter a number.')
 
@@ -240,7 +245,8 @@ if __name__ == '__main__':
             while True:
                 graphics.title()
                 graphics.game_info_bar(player.name, player.chips, match)
-                graphics.show_hands(dealer.cards, player.cards, player.name)
+                graphics.show_hands(dealer.cards, player.cards, player.name,
+                                    dealer.is_dealer, dealer.card_flip)
 
 
                 #CHOOSE THE ACE VALUE
@@ -258,7 +264,8 @@ if __name__ == '__main__':
 
                     graphics.title()
                     graphics.game_info_bar(player.name, player.chips, match)
-                    graphics.show_hands(dealer.cards, player.cards, player.name)
+                    graphics.show_hands(dealer.cards, player.cards, player.name,
+                                        dealer.is_dealer, dealer.card_flip)
                     break
 
 
@@ -268,7 +275,8 @@ if __name__ == '__main__':
 
                     graphics.title()
                     graphics.game_info_bar(player.name, player.chips, match)
-                    graphics.show_hands(dealer.cards, player.cards, player.name)
+                    graphics.show_hands(dealer.cards, player.cards, player.name,
+                                        dealer.is_dealer, dealer.card_flip)
 
                     graphics.bust()
                     input()
@@ -300,27 +308,31 @@ if __name__ == '__main__':
 
 
             #CHECK FOR WIN OR LOSE
-            if dealer.sum_cards() > 21 and player.sum_cards() <= 21 or \
-                player.sum_cards() > dealer.sum_cards() and player.sum_cards() <=21:
+            d_sum = dealer.sum_cards()
+            p_sum = player.sum_cards()
+
+            if d_sum > 21 and p_sum <= 21 or p_sum > d_sum \
+               and p_sum <=21 or p_sum ==21:
 
                 player.chips += player.bet_chips*2
                 player.bet_chips = 0
 
                 graphics.title()
                 graphics.game_info_bar(player.name, player.chips, match)
-                graphics.show_hands(dealer.cards, player.cards, player.name)
+                graphics.show_hands(dealer.cards, player.cards, player.name,
+                                    dealer.is_dealer, dealer.card_flip)
 
                 graphics.win()
                 input()
 
-            elif dealer.sum_cards() <= 21 and player.sum_cards() < 21 and \
-                dealer.sum_cards() > player.sum_cards():
+            elif d_sum <= 21 and p_sum < 21 and d_sum > p_sum:
 
                 player.bet_chips = 0
 
                 graphics.title()
                 graphics.game_info_bar(player.name, player.chips, match)
-                graphics.show_hands(dealer.cards, player.cards, player.name)
+                graphics.show_hands(dealer.cards, player.cards, player.name,
+                                    dealer.is_dealer, dealer.card_flip)
 
                 graphics.lose()
                 input()
@@ -332,7 +344,8 @@ if __name__ == '__main__':
 
                 graphics.title()
                 graphics.game_info_bar(player.name, player.chips, match)
-                graphics.show_hands(dealer.cards, player.cards, player.name)
+                graphics.show_hands(dealer.cards, player.cards, player.name,
+                                    dealer.is_dealer, dealer.card_flip)
 
                 graphics.game_over()
                 input()
@@ -347,6 +360,7 @@ if __name__ == '__main__':
             if user_input == 'y':
                 player.cards.clear()
                 dealer.cards.clear()
+                dealer.card_flip = False
 
                 dealer.card_deck = Deck()
                 dealer.card_deck.shuffle()

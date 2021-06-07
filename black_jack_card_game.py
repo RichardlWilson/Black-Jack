@@ -104,6 +104,18 @@ class Dealer:
         '''
         return str(self.cards[0])
 
+    def ace_value(self):
+        '''
+        Checks value of ace.
+        '''
+         for card in self.cards:
+            total = self.sum_cards()
+            if card.value == 0:
+                if (total + 11) <= 21:
+                    card.value = 11
+                else:
+                    card.value = 1
+
 
 
 class Player:
@@ -142,12 +154,19 @@ class Player:
         Check value of Ace.
         '''
         for card in self.cards:
-            total = self.sum_cards()
-            if card.value == 0:
-                if (total + 11) <= 21:
-                    card.value = 11
-                else:
-                    card.value = 1            
+            for _ in range(2):
+                total = self.sum_cards()
+                if card.value == 0:
+                    if (total + 11) <= 21:
+                        card.value = 11
+                    else:
+                        card.value = 1
+                elif card.value == 11:
+                    if total > 21:
+                        card.value = 1
+                elif card.value == 1:
+                    if (total + 10) <= 21:
+                        card.value = 11                    
 
 
 
@@ -223,6 +242,7 @@ if __name__ == '__main__':
                 dealer.cards.append(dealer.card_deck.deal())
 
             match += 1
+            dealer.ace_value()
 
             graphics.title()
             graphics.game_info_bar(player.name, player.chips, match)
@@ -294,14 +314,8 @@ if __name__ == '__main__':
 
             #DEALER FINISHES LAYING DOWN CARDS
             while dealer.sum_cards() < 17:
-                for card in dealer.cards:
-                    if card.value == 0:
-                        if (dealer.sum_cards() + 11) <= 21:
-                            card.value = 11
-                        else:
-                            card.value = 1
-
                 dealer.cards.append(dealer.card_deck.deal())
+                dealer.ace_value()
 
 
             #CHECK FOR WIN OR LOSE

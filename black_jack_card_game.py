@@ -144,7 +144,7 @@ class Player:
         for card in self.cards:
             total = self.sum_cards()
             if card.value == 0:
-                if (total + 11) < 21:
+                if (total + 11) <= 21:
                     card.value = 11
                 else:
                     card.value = 1            
@@ -296,7 +296,7 @@ if __name__ == '__main__':
             while dealer.sum_cards() < 17:
                 for card in dealer.cards:
                     if card.value == 0:
-                        if (dealer.sum_cards() + 11) < 21:
+                        if (dealer.sum_cards() + 11) <= 21:
                             card.value = 11
                         else:
                             card.value = 1

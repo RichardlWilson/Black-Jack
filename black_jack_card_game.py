@@ -108,7 +108,7 @@ class Dealer:
         '''
         Checks value of ace.
         '''
-         for card in self.cards:
+        for card in self.cards:
             total = self.sum_cards()
             if card.value == 0:
                 if (total + 11) <= 21:
